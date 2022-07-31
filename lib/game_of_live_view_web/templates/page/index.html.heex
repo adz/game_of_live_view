@@ -1,3 +1,8 @@
 <div>
-  <h1>Embed here</h1>
+  <h1>Boards</h1>
+  <ul>
+    <li>
+      <%= link "Random board", to: Routes.board_path(@conn, :index) %>
+    </li>
+  </ul>
 </div>
