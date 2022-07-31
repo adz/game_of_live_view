@@ -1,0 +1,10 @@
+2022-07-31 14:47:01.968 ACST [576331] LOG:  starting PostgreSQL 12.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.1.0, 64-bit
+2022-07-31 14:47:01.969 ACST [576331] LOG:  listening on IPv6 address "::1", port 5432
+2022-07-31 14:47:01.969 ACST [576331] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-07-31 14:47:01.972 ACST [576331] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-07-31 14:47:02.023 ACST [576335] LOG:  database system was interrupted; last known up at 2022-07-29 23:15:14 ACST
+2022-07-31 14:47:02.326 ACST [576335] LOG:  database system was not properly shut down; automatic recovery in progress
+2022-07-31 14:47:02.341 ACST [576335] LOG:  redo starts at 2/6F7E60
+2022-07-31 14:47:02.344 ACST [576335] LOG:  invalid record length at 2/70EAF8: wanted 24, got 0
+2022-07-31 14:47:02.344 ACST [576335] LOG:  redo done at 2/70EAD0
+2022-07-31 14:47:02.418 ACST [576331] LOG:  database system is ready to accept connections
