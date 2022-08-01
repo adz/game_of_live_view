@@ -18,7 +18,7 @@ defmodule GameOfLiveViewWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/board", BoardController, :index
+    live "/board", BoardLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

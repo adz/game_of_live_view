@@ -1,19 +1,14 @@
 # GameOfLiveView
 
-To start your Phoenix server:
+As a fun experiment, build out a board by creating processes for each cell as it
+is rendered. In the browser, they can send messages to their neighbours, who
+delegate back to their server process.
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+The board itself doesn't call logic -- it's simply a side effect of creating cells in
+a specific order, with positions coordinated with neighbours.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Cell data would be:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+  * x, y: int -- positional data created on gen
+  * alive: bool
+  * alive_neighbours: int -- number of alive neighbours in this iteration
