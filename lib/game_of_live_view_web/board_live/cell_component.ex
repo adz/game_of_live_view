@@ -13,15 +13,20 @@ defmodule GameOfLiveViewWeb.BoardLive.CellComponent do
       :ok,
       socket
       |> assign(assigns)
+      |> tap(&report_to_parent/1)
       |> assign(:width, 40)
       |> assign(:height, 40)
       |> assign_style()
     }
   end
 
+  defp report_to_parent(s) do
+    send(self(), {:cell_status, {s.assigns.col, s.assigns.row}, s.assigns.alive})
+  end
+
   @impl true
   def handle_event("toggle", _, socket) do
-    {:noreply, socket |> assign(alive: !socket.assigns.alive)}
+    {:noreply, socket |> assign(alive: !socket.assigns.alive) |> tap(&report_to_parent/1)}
   end
 
   defp assign_style(%{assigns: %{alive: is_alive}} = socket) do

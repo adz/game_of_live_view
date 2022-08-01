@@ -1,13 +1,11 @@
 <div>
 <svg width="800" height="800">
-    <%= for col <- 0..18 do %>
-        <%= for row <- 0..18 do %>
-            <.live_component module={CellComponent}
-                             id={"#{col}-#{row}"}
-                             col={col}
-                             row={row}
-                             />
-        <% end %>
+    <%= for col <- 0..18, row <- 0..18 do %>
+        <.live_component module={CellComponent}
+                         id={"#{col}-#{row}"}
+                         col={col}
+                         row={row}
+                         />
     <% end %>
 </svg>
 </div>
