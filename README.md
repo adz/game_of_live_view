@@ -9,6 +9,6 @@ a specific order, with positions coordinated with neighbours.
 
 Cell data would be:
 
-  * x, y: int -- positional data created on gen
+  * row, col: int -- positional data created on gen
   * alive: bool
   * alive_neighbours: int -- number of alive neighbours in this iteration
