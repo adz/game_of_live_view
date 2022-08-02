@@ -1,11 +1,10 @@
 <div>
 <svg width="800" height="800">
     <%= for col <- 0..18, row <- 0..18 do %>
-        <.live_component module={CellComponent}
-                         id={"#{col}-#{row}"}
-                         col={col}
-                         row={row}
-                         />
+        <%= live_render(@socket, Cell,
+                        id: "#{col}-#{row}",
+                        session: %{"col" => col, "row" => row},
+                        container: {:svg, []}) %>
     <% end %>
 </svg>
 </div>

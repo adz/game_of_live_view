@@ -1,6 +1,6 @@
 defmodule GameOfLiveViewWeb.BoardLive.Index do
   use GameOfLiveViewWeb, :live_view
-  alias GameOfLiveViewWeb.BoardLive.CellComponent
+  alias GameOfLiveViewWeb.BoardLive.Cell
   alias GameOfLiveView.Board
 
   @shout_ms 1000
@@ -11,26 +11,40 @@ defmodule GameOfLiveViewWeb.BoardLive.Index do
       schedule_tick()
     end
 
-    {:ok, socket |> assign(:board, Board.empty())}
+    {
+      :ok,
+      socket
+      |> assign(:board, Board.empty())
+      |> assign(:cell_pids, %{})
+    }
   end
 
-  def handle_info({:cell_status, pos, alive}, socket) do
+  def handle_info({:cell_status, pos, alive, cell_pid}, socket) do
     new_board =
       socket.assigns.board
       |> Board.update_board(pos, alive)
 
-    {:noreply, assign(socket, board: new_board)}
+    {
+      :noreply,
+      socket
+      |> assign(board: new_board)
+      |> update(:cell_pids, fn pids -> pids |> Map.put(pos, cell_pid) end)
+    }
   end
 
   @impl true
   def handle_info(:tick, socket) do
     schedule_tick()
     board = socket.assigns.board
+    cell_pids = socket.assigns.cell_pids
 
     for col <- 0..18, row <- 0..18 do
       cell = {col, row}
       fate = board |> Board.will_live?(cell)
-      send_update(CellComponent, id: "#{col}-#{row}", alive: fate)
+
+      ## TODO: make this kill the cell, and remove from dom somehow
+      # send_update(Cell, id: "#{col}-#{row}", alive: fate)
+      send(cell_pids[cell], {:alive, fate})
     end
 
     {:noreply, socket}
