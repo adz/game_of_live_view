@@ -26,7 +26,7 @@ defmodule GameOfLiveViewWeb.BoardLive.CellComponent do
 
   @impl true
   def handle_event("toggle", _, socket) do
-    {:noreply, socket |> assign(alive: !socket.assigns.alive) |> tap(&report_to_parent/1)}
+    {:noreply, socket |> update(:alive, &(not &1)) |> tap(&report_to_parent/1)}
   end
 
   defp assign_style(%{assigns: %{alive: is_alive}} = socket) do
