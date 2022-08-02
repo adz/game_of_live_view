@@ -32,3 +32,5 @@ game_of_live_view-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Postgres log
+pg.log
