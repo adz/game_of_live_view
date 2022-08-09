@@ -4,10 +4,20 @@ defmodule GameOfLiveView.Board do
     MapSet.new()
   end
 
+  # TODO: tdd
+  # neighbours of cells who are not alive
+  def zombies(board) do
+    []
+  end
+
   def will_live?(board, cell) do
     alive = alive?(board, cell)
     live_neighbours = count_neighbours(board, cell)
 
+    passes_life_rule?(alive, live_neighbours)
+  end
+
+  def passes_life_rule?(alive, live_neighbours) do
     (alive && live_neighbours == 2) || live_neighbours == 3
   end
 

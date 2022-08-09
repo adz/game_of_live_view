@@ -1,9 +1,32 @@
 <div>
 <svg width="800" height="800">
+    <%# Render empty board cells %>
     <%= for col <- 0..18, row <- 0..18 do %>
+        <rect
+            phx-click="toggle"
+            phx-value-col={col}
+            phx-value-row={row}
+            width={@width}
+            height={@height}
+            rx="5"
+            ry="5"
+            x={@width * col}
+            y={@height * row}
+            style="stroke-width: 1;fill:rgb(255,255,255); stroke: rgb(210,210,210)"/>
+    <% end %>
+
+    <%# Render living cells %>
+    <%= for {col, row} <- @board do %>
         <%= live_render(@socket, Cell,
                         id: "#{col}-#{row}",
-                        session: %{"col" => col, "row" => row},
+                        session: %{"col" => col, "row" => row, "alive" => true},
+                        container: {:svg, []}) %>
+    <% end %>
+    <%# Render zombie neighbour cells %>
+    <%= for {col, row} <- Board.zombies(@board) do %>
+        <%= live_render(@socket, Cell,
+                        id: "#{col}-#{row}",
+                        session: %{"col" => col, "row" => row, "alive" => false},
                         container: {:svg, []}) %>
     <% end %>
 </svg>

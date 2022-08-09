@@ -1,9 +1,11 @@
 <rect
     phx-click="toggle"
+    phx-value-col={@col}
+    phx-value-row={@row}
     width={@width}
     height={@height}
     rx="5"
     ry="5"
     x={@width * @col}
     y={@height * @row}
-    style={get_style(@alive)}/>
+    style={get_style(false)}/>

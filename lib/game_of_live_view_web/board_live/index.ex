@@ -3,6 +3,13 @@ defmodule GameOfLiveViewWeb.BoardLive.Index do
   alias GameOfLiveViewWeb.BoardLive.Cell
   alias GameOfLiveView.Board
 
+  @moduledoc """
+  Plan:
+   - board generates randomized cell life
+   - for each cell life, surrounding cells become zombies (unless already alive)
+   -
+  """
+
   @shout_ms 1000
 
   @impl true
@@ -15,42 +22,26 @@ defmodule GameOfLiveViewWeb.BoardLive.Index do
       :ok,
       socket
       |> assign(:board, Board.empty())
-      |> assign(:cell_pids, %{})
-    }
-  end
-
-  def handle_info({:cell_status, pos, alive, cell_pid}, socket) do
-    new_board =
-      socket.assigns.board
-      |> Board.update_board(pos, alive)
-
-    {
-      :noreply,
-      socket
-      |> assign(board: new_board)
-      |> update(:cell_pids, fn pids -> pids |> Map.put(pos, cell_pid) end)
+      |> assign(:width, 40)
+      |> assign(:height, 40)
     }
   end
 
   @impl true
-  def handle_info(:tick, socket) do
-    schedule_tick()
-    board = socket.assigns.board
-    cell_pids = socket.assigns.cell_pids
+  def handle_info({:shout, {col, row}}, socket) do
+    IO.inspect("Cell #{col}-#{row} shouted!")
 
-    for col <- 0..18, row <- 0..18 do
-      cell = {col, row}
-      fate = board |> Board.will_live?(cell)
-
-      ## TODO: make this kill the cell, and remove from dom somehow
-      # send_update(Cell, id: "#{col}-#{row}", alive: fate)
-      send(cell_pids[cell], {:alive, fate})
-    end
-
+    # TODO: Make it so
+    # - if cell exists, send it lifeforce
+    # - if cell dead, create one as 'zombie', send it lifeforce
     {:noreply, socket}
   end
 
   def schedule_tick() do
+    # progress
+    # everyone shouts
+    Phoenix.PubSub.broadcast(MyApp.PubSub, @shout_topic, {:shout, col, row})
+    # reschedule
     Process.send_after(self(), :tick, @shout_ms)
   end
 end
